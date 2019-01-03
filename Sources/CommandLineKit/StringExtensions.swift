@@ -47,35 +47,6 @@ internal extension String {
   }
 
   /**
-   * Splits a string into an array of string components.
-   *
-   * - parameter by:        The character to split on.
-   * - parameter maxSplits: The maximum number of splits to perform. If 0, all possible splits are made.
-   *
-   * - returns: An array of string components.
-   */
-  func split(by: Character, maxSplits: Int = 0) -> [String] {
-    var s = [String]()
-    var numSplits = 0
-
-    var curIdx = self.startIndex
-    for i in self.characters.indices {
-      let c = self[i]
-      if c == by && (maxSplits == 0 || numSplits < maxSplits) {
-        s.append(self[curIdx..<i])
-        curIdx = self.index(after: i)
-        numSplits += 1
-      }
-    }
-
-    if curIdx != self.endIndex {
-      s.append(self[curIdx..<self.endIndex])
-    }
-
-    return s
-  }
-
-  /**
    * Pads a string to the specified width.
    *
    * - parameter toWidth: The width to pad the string to.
@@ -85,7 +56,7 @@ internal extension String {
    */
   func padded(toWidth width: Int, with padChar: Character = " ") -> String {
     var s = self
-    var currentLength = self.characters.count
+    var currentLength = self.count
 
     while currentLength < width {
       s.append(padChar)
@@ -112,8 +83,8 @@ internal extension String {
     var s = ""
     var currentLineWidth = 0
 
-    for word in self.split(by: splitBy) {
-      let wordLength = word.characters.count
+    for word in self.split(separator: splitBy) {
+      let wordLength = word.count
 
       if currentLineWidth + wordLength + 1 > width {
         /* Word length is greater than line length, can't wrap */
